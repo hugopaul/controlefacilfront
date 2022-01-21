@@ -1,0 +1,98 @@
+<br>
+<br>
+<br>
+<br>
+<div class="container mt-5">
+    <div class="align-items-center">
+        <div class="col-md-12 mx-auto ">
+            <div class="">
+                <h1>Dashboards</h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active"> <a routerLink="/lancamentos/cadastro">Lancamentos </a></li>
+                    <li class="breadcrumb-item active"> <a routerLink="/lancamentos/cadastro">Cadastros</a></li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>{{mask()}}</h3>
+
+                                <p>Soma Valor Entrada
+                                    (30 dias)
+                                </p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                                <p>Soma Valor Saída
+                                    (30 dias)</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3>44</h3>
+
+                                <p>Soma Valor Transf.
+                                    (30 dias)</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>65</h3>
+
+                                <p>Saldo parcial R$
+                                    (30 dias)</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pie-graph"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+                <!-- /.row -->
+                <!-- Main row -->
+                <div class="">
+                    <div class="col-md-12">
+                        <h1>1. Lançamentos por Mês</h1>
+                        <canvas #pieCanvas style="height:20vh; width:40vw"></canvas>
+                        <hr color="red">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>

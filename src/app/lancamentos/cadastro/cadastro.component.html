@@ -1,0 +1,211 @@
+<br>
+<br>
+<br>
+<br>
+<div class="container mt-5">
+      <div class="align-items-center">
+            <div class="col-md-12 mx-auto ">
+                  <div class="form-group">
+                        <h1>Lançamentos</h1>
+                        <ol class="breadcrumb">
+                              <li class="breadcrumb-item active"> <a routerLink="/lancamentos/cadastro">Cadastro </a>
+                              </li>
+                              <li class="breadcrumb-item active"> <a routerLink="/lancamentos/lista">Lista de
+                                          Lançamentos </a></li>
+                        </ol>
+                  </div>
+            </div>
+            <form class="container" #lancamentoForm="ngForm" (ngSubmit)="onSubmit()">
+
+                  <div class="row">
+                        <div class="col-md-12">
+                              <div class="alert alert-success" role="alert" *ngIf="success == true">
+                                    Cadastrado/Atualizado com sucesso!
+                              </div>
+                        </div>
+                        <div class="col-md-12">
+                              <div class="alert alert-danger" role="alert" *ngFor="let erro of errors">
+                                    {{ erro }}
+                              </div>
+                        </div>
+                  </div>
+                  <div class="row" *ngIf="lancamento.id">
+                        <div class="col-md-6">
+                              <div class="form-group">
+                                    <label>ID: </label>
+                                    <input type="text" class="form-control" disabled="true" [ngModel]="lancamento.id"
+                                          name="id" />
+                              </div>
+                        </div>
+                        <div class="col-md-6">
+                              <div class="form-group">
+                                    <label>Data de Cadastro: </label>
+                                    <input type="text" class="form-control" disabled="true"
+                                          [ngModel]="lancamento.created" name="created" />
+                              </div>
+                        </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-md-12">
+                              <div class="form-group">
+                                    <label>Descrição do Lançamento: </label>
+                                    <input type="text" class="form-control" autocomplete="off" [(ngModel)]="lancamento.descricao"
+                                          name="descricao" />
+                              </div>
+
+                        </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-md-12">
+                              <div class="form-group">
+                                    <label>Nota Fiscal ou Código: </label>
+                                    <input type="text" class="form-control" [(ngModel)]="lancamento.nfOuCodigo"
+                                          name="nfOuCodigo" autocomplete="off" />
+                              </div>
+                        </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-md-12">
+                              <div class="form-group">
+                                    <label for="inputReq"> Valor R$:</label>
+                                    <input id="valorServico" type="text" class="form-control" name="valorServico"
+                                          [(ngModel)]="valorServico" (keyup)="onKeyPress($event)" autocomplete="off">
+                              </div>
+                        </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-md-12">
+                              <label> Origem do Recurso: </label><br>
+                              <div class="form-group">
+                                    <input list="teste" type="text" class="form-control col-md-12" [(ngModel)]="nmBanco"
+                                          (keyup)="buscarRecurso($event)" name="nmBanco"
+                                          placeholder="Buscar Recurso ..." autocomplete="off" />
+                                    <datalist id="teste">
+                                          <option *ngFor="let recs of recursos" [ngValue]="recs.id" autocomplete="off">
+                                                {{selectRecurso(recs.id)}} {{recs.codBacen}} - {{recs.nmBanco}} </option>
+                                    </datalist>
+                              </div>
+                        </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-md-6">
+                              <div class="form-group">
+                                    <label for="inputPaciente"> Tipo de Lançamento </label>
+                                    <select class="form-control" [ngModelOptions]="{standalone:true}"
+                                          [(ngModel)]="lancamento.tipoLancamento" name="lancamento">
+                                          <option value="">Selecione ...</option>
+                                          <option value="2">ENTRADA</option>
+                                          <option value="1">SAÍDA</option>
+                                          <option value="0">TRANSFERÊNCIA</option>
+                                    </select>
+                              </div>
+                        </div>
+                        <div class="col-md-6">
+                              <div class="form-group">
+                                    <label>Data do Lançamento: </label>
+                                    <input type="date" class="form-control" [(ngModel)]="lancamento.data" name="data" />
+                              </div>
+                        </div>
+                  </div>
+                  <div class="row">
+                        
+                        <div class="col-md-3">
+                              <label> Destinatário do Recurso: </label><br>
+                              <div class="form-check">
+                                    <input type="radio" value="true" name="tipoPessoa" (click)="pfclick()" [checked]="lancamento.pf == true " > Pessoa Física
+                              </div>
+                              <div class="form-check">
+                                    <input type="radio" value="false" name="tipoPessoa" (click)="pjclick()" [checked]="lancamento.pj == true "  > Pessoa Jurídica
+                              </div>
+                              <br>
+                        </div>
+                        <div class="col-md-9">
+                              <div class="form-group" *ngIf="lancamento.pf == true">
+                                    <br>
+                                    <input list="teste3" type="text" class="form-control col-md-12" [(ngModel)]="nome"
+                                          (keyup)="buscarPf($event)" autocomplete="off" name="nome"
+                                          placeholder="Buscar Pessoa Física ..." />
+
+                                    <datalist id="teste3">
+                                          <option *ngFor="let pfs of pessoasFisicas" [ngValue]="pfs.id"
+                                                autocomplete="off">
+                                                {{selectPF(pfs.id)}} {{pfs.cpf}} - {{pfs.nome}} </option>
+                                    </datalist>
+                              </div>
+                              <div class="form-group" *ngIf="lancamento.pj == true">
+                                    <br>
+                                    <input list="teste2" type="text" class="form-control col-md-12" [(ngModel)]="nome"
+                                          (keyup)="buscarPj($event)" autocomplete="off" name="nome" 
+                                          placeholder="Buscar Pessoa Jurídica ..." />
+                                    <datalist id="teste2">
+                                          <option *ngFor="let pjs of pessoasJuridicas" [ngValue]="pjs.id"
+                                                autocomplete="off">
+                                                {{selectPj(pjs.id)}} {{pjs.cnpj}} - {{pjs.razaoSocial}} </option>
+                                    </datalist>
+                              </div>
+                        </div>
+
+                  </div>
+                  <div class="row">
+                        <div class="col-md-2">
+                              <button type="submit" class="btn btn-success" *ngIf="!lancamento.id">
+                                    <i class="fa fa-save"></i> Salvar
+                              </button>
+                              <button type="submit" class="btn btn-success" *ngIf="lancamento.id">
+                                    <i class="fa fa-save"></i> Atualizar
+                              </button>
+                        </div>
+                        <div class="col-md-2">
+                              <button type="button" class="btn btn-danger" (click)="voltar()">
+                                    <i class="fa fa-arrow-circle-left"></i> Voltar
+                              </button>
+                        </div>
+                        <div class="float-right col-md-2">
+                              <button type="button" class="btn btn-secondary" (click)="ativar()"
+                                    *ngIf="lancamento.desativado == 1">
+                                    <i class="fa fa-trash"></i> Ativar
+                              </button>
+                              <button type="button" class="btn btn-danger" (click)="limpaMotivo()" data-toggle="modal"
+                                    data-target="#modalDelecao" *ngIf="lancamento.desativado == 0">
+                                    <i class="fa fa-trash"></i> Desativar
+                              </button>
+                        </div>
+                  </div>
+                  <div id="modalDelecao" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                              <div class="modal-content">
+                                    <div class="modal-header">
+                                          <h4>Confirmação</h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                          <h6>Descreva um motivo para excluir o lançamento {{ lancamento.descricao }} ?
+                                          </h6>
+                                    </div>
+                                    <div class="textarea-container ml-2 mr-2">
+                                          <div class="form-group">
+                                                <label>Motivo: </label>
+                                                <input type="textarea" class="form-control"
+                                                      [(ngModel)]="lancamento.motivoDesativar" name="motivoDesativar" />
+                                          </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                          <button class="btn btn-danger" (click)="desativar()"
+                                                data-dismiss="modal">Confirma</button>
+                                          <button class="btn btn-primary ml-1" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </form>
+      </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

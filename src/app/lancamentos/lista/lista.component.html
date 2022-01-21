@@ -1,0 +1,95 @@
+<br>
+<br>
+<br>
+
+<div class="container mt-5">
+    <div class="align-items-center">
+        <div class="col-md-12 mx-auto ">
+            <div class="">
+                <h1>Lançamentos</h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active"> <a routerLink="/lancamentos/cadastro">Cadastro </a></li>
+                    <li class="breadcrumb-item active"> <a routerLink="/lancamentos/lista">Lista de Lançamentos </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                      <div class="alert alert-success" role="alert" *ngIf="mensagemSucesso">
+                            {{ mensagemSucesso }}
+                      </div>
+                </div>
+                <div class="col-md-12">
+                      <div class="alert alert-danger" role="alert" *ngIf="mensagemErro">
+                            {{ mensagemErro }}
+                      </div>
+                </div>
+          </div>
+            <div class="row">
+                <div class="col-md-12 table-responsive">
+                    <table class="table table-striped table-hover" >
+                        <thead class="thead-dark">
+                            <tr>
+                                <th (click)="sort('descricao')">Descrição<span *ngIf="key =='descricao'"> {{ reverse ? '▲' : '▼' }} </span></th>
+                                <th (click)="sort('nfOuCodigo')">Nota F / Código<span *ngIf="key =='nfOuCodigo'"> {{ reverse ? '▲' : '▼' }} </span></th>
+                                <th (click)="sort('valor')">Valor<span *ngIf="key =='valor'"> {{ reverse ? '▲' : '▼' }} </span></th>
+                                <th (click)="sort('tipoLancamento')">Tipo<span *ngIf="key =='tipoLancamento'"> {{ reverse ? '▲' : '▼' }} </span></th>
+                                <th (click)="sort('data')">Data<span *ngIf="key =='data'"> {{ reverse ? '▲' : '▼' }} </span></th>
+                                <th (click)="sort('desativado')">Destinatário<span *ngIf="key =='desativado'"> {{ reverse ? '▲' : '▼' }} </span></th>
+                                <th>Editar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let lancamento of lancamentos | orderBy: key : reverse; let i = index ">
+                                <td>{{ lancamento.descricao}}</td>
+                                <td>{{ lancamento.nfOuCodigo}}</td>
+                                <td>{{ initMaskValue(lancamento.valor) }}</td>
+                                <td>{{ lancamento.tipoLancamento == 0 ? "TRANSF." : lancamento.tipoLancamento == 1 ? "SAÍDA" : "ENTRADA"}}</td>
+                                <td>{{ lancamento.data}}</td>
+                                <td>{{ lancamento.pf == true ? "P. Física" : "P. Jurídica" }}</td>
+                                <td> <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                      <button class="btn btn-primary" routerLink="/lancamentos/cadastro/{{ lancamento.id }}"><i class="fa fa-edit"></i></button>
+                                      <button class="btn btn-danger" (click)="preparaDelecao(lancamento)" *ngIf="lancamento.desativado == 0"
+                                    data-toggle="modal" data-target="#modalDelecao"><i class="fa fa-trash"></i></button>
+                                       <button class="btn btn-success" (click)="preparaAtivacao(lancamento)" *ngIf="lancamento.desativado == 1"
+                                       data-toggle="modal" data-target="#modalDelecao"><i class="fa fa-trash"></i></button></div>
+                                </td>
+        
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          <div id="modalDelecao" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                      <div class="modal-content">
+                            <div class="modal-header">
+                                  <h4>Confirmação</h4>
+                            </div>
+                            <div class="modal-body" >
+                                <div *ngIf="lancamentoSelect.desativado == 0">
+                                  <h6 >Descreva um motivo para desativar o lançamento {{ lancamentoSelect.descricao }} ?</h6>
+                                </div>
+                                <div *ngIf="lancamentoSelect.desativado == 1">
+                                <h6 >Deseja ativar o {{ lancamentoSelect.descricao }} ?</h6>
+                                </div>
+                          </div>
+                            <div class="textarea-container ml-2 mr-2" *ngIf="lancamentoSelect.desativado == 0">
+                                  <div class="form-group">
+                                        <label *ngIf="lancamentoSelect.desativado == 0">Motivo: </label>
+                                        <input type="textarea" class="form-control" *ngIf="lancamentoSelect.desativado == 0"
+                                              [(ngModel)]="lancamentoSelect.motivoDesativar" name="motivoDesativar" />
+                                  </div>
+                            </div>
+                            <div class="modal-footer">
+                                  <button class="btn btn-danger" (click)="ativaoudesativa()"
+                                        data-dismiss="modal">Confirma</button>
+                                  <button class="btn btn-primary ml-1" data-dismiss="modal">Cancelar</button>
+                            </div>
+                      </div>
+                </div>
+          </div>
+        </div>

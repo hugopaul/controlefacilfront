@@ -1,0 +1,98 @@
+<br>
+<br>
+<br>
+
+<div class="container mt-5">
+    <div class="align-items-center">
+        <div class="col-md-12 mx-auto ">
+            <div class="">
+                <h1>Pessoa Física</h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active"> <a routerLink="/pessoa-fisica/cadastro">Cadastro </a></li>
+                    <li class="breadcrumb-item active"> <a routerLink="/pessoa-fisica/lista">Lista de Pessoas Físicas </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert" *ngIf="mensagemSucesso">
+                    {{ mensagemSucesso }}
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="alert alert-danger" role="alert" *ngIf="mensagemErro">
+                    {{ mensagemErro }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th (click)="sort('nome')">Nome<span *ngIf="key =='nome'"> {{ reverse ? '▲' :
+                                    '▼' }} </span></th>
+                            <th (click)="sort('endereco')">Endereço<span *ngIf="key =='endereco'"> {{ reverse
+                                    ? '▲' : '▼' }} </span></th>
+                            <th (click)="sort('email')">E-Mail<span *ngIf="key =='email'"> {{ reverse ? '▲' : '▼' }}
+                                </span></th>
+                            <th (click)="sort('telefone')">Telefone<span *ngIf="key =='telefone'"> {{ reverse ? '▲' : '▼' }} </span>
+                            </th>
+                            <th (click)="sort('desativado')">Status<span *ngIf="key =='desativado'"> {{ reverse ? '▲' :
+                                    '▼' }} </span></th>
+                            <th>Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pessoaFisica of pessoasFisicas | orderBy: key : reverse; let i = index ">
+                            <td>{{ pessoaFisica.nome}}</td>
+                            <td>{{ pessoaFisica.endereco}}</td>
+                            <td>{{ pessoaFisica.email}}</td>
+                            <td>{{ pessoaFisica.telefone}}</td>
+                            <td>{{ pessoaFisica.desativado == 1 ? "DESAT." : "ATIVO" }}</td>
+                            <td>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                    <button class="btn btn-primary"
+                                        routerLink="/pessoa-fisica/cadastro/{{ pessoaFisica.id }}"><i
+                                            class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger" (click)="preparaDelecao(pessoaFisica)"
+                                        *ngIf="pessoaFisica.desativado == 0" data-toggle="modal"
+                                        data-target="#modalDelecao"><i class="fa fa-trash"></i></button>
+                                    <button class="btn btn-success" (click)="preparaAtivacao(pessoaFisica)"
+                                        *ngIf="pessoaFisica.desativado == 1" data-toggle="modal"
+                                        data-target="#modalDelecao"><i class="fa fa-trash"></i></button>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="modalDelecao" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Confirmação</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div *ngIf="pessoaFisicasSelect.desativado == 0">
+                            <h6>Deseja desativar o(a) {{ pessoaFisicasSelect.nome }} ?</h6>
+                        </div>
+                        <div *ngIf="pessoaFisicasSelect.desativado == 1">
+                            <h6>Deseja ativar o(a) {{ pessoaFisicasSelect.nome }} ?</h6>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" (click)="ativaoudesativa()"
+                            data-dismiss="modal">Confirma</button>
+                        <button class="btn btn-primary ml-1" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

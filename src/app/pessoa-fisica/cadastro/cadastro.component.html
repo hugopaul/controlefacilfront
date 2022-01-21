@@ -1,0 +1,143 @@
+<br>
+<br>
+<br>
+
+
+<div class="container mt-5">
+    <div class="align-items-center">
+        <div class="col-md-12 mx-auto ">
+            <div class="">
+                <h1 >Pessoa Física</h1>
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item active"> <a routerLink="/pessoa-fisica/cadastro">Cadastro </a></li>
+                  <li class="breadcrumb-item active"> <a routerLink="/pessoa-fisica/lista">Lista de Pessoas Físicas </a></li>
+                </ol>
+            </div>
+        </div>
+        <form class="container" #pessoaFisicaForm="ngForm" (ngSubmit)="onSubmit()">
+          
+            <div class="row">
+                  <div class="col-md-12">
+                        <div class="alert alert-success" role="alert" *ngIf="success == true">
+                              Cadastrado/Atualizado com sucesso!
+                        </div>
+                  </div>
+                  <div class="col-md-12">
+                        <div class="alert alert-danger" role="alert" *ngFor="let erro of errors">
+                              {{ erro }}
+                        </div>
+                  </div>
+            </div>
+            <div class="row" *ngIf="pessoaFisica.id">
+                  <div class="col-md-6">
+                        <div class="form-group">
+                              <label>ID: </label>
+                              <input type="text" class="form-control" disabled="true" [ngModel]="pessoaFisica.id"
+                                    name="id" />
+                        </div>
+                  </div>
+                  <div class="col-md-6">
+                        <div class="form-group">
+                              <label>Data de Cadastro: </label>
+                              <input type="text" class="form-control" disabled="true"
+                                    [ngModel]="pessoaFisica.created" name="created" />
+                        </div>
+                  </div>
+            </div>
+            <div class="row">
+                  <div class="col-md-12">
+                        <div class="form-group">
+                              <label>Nome Completo: </label>
+                              <input type="text" class="form-control" autocomplete="off"
+                              [(ngModel)]="pessoaFisica.nome" name="paciente"/>
+                        </div>
+
+                  </div>
+            </div>
+            <div class="row">
+                  <div class="col-md-12">
+                        <div class="form-group">
+                              <label>Endereço: </label>
+                              <input type="text" class="form-control" autocomplete="off"
+                              [(ngModel)]="pessoaFisica.endereco" name="endereco" />
+                        </div>
+                  </div>
+            </div>
+            <div class="row">
+                  <div class="col-md-12">
+                        <div class="form-group">
+                              <label>CPF: </label>
+                              <input type="text" class="form-control"  autocomplete="off"
+                              [(ngModel)]="pessoaFisica.cpf" name="cpf"/>
+                        </div>
+                  </div>
+                  
+            </div>
+            <div class="row">
+                  <div class="col-md-6">
+                        <div class="form-group">
+                              <label>Email</label>
+                              <input type="text" class="form-control" autocomplete="off"
+                              [(ngModel)]="pessoaFisica.email" name="email" />
+                        </div>
+                  </div>
+                  <div class="col-md-6">
+                        <div class="form-group">
+                              <label>Telefone: </label>
+                              <input type="text" class="form-control" autocomplete="off"
+                              [(ngModel)]="pessoaFisica.telefone" name="telefone" />
+                        </div>
+                  </div>
+            </div>
+            <div class="row">
+                  <div class="col-md-2">
+                        <button type="submit" class="btn btn-success" *ngIf="!pessoaFisica.id">
+                              <i class="fa fa-save"></i>  Salvar
+                        </button>
+                        <button type="submit" class="btn btn-success" *ngIf="pessoaFisica.id" >
+                              <i class="fa fa-save"></i> Atualizar
+                        </button>
+                  </div>
+                  <div class="col-md-2">
+                        <button type="button" class="btn btn-dark" (click)="voltar()">
+                              <i class="fa fa-arrow-circle-left"></i>  Voltar
+                        </button>
+                  </div>
+                  <div class="float-right col-md-2">
+                        <button type="button" class="btn btn-secondary" (click)="ativar()" *ngIf="pessoaFisica.desativado == 1">
+                              <i class="fa fa-trash"></i> Ativar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDelecao" *ngIf="pessoaFisica.desativado == 0">
+                              <i class="fa fa-trash"></i> Desativar
+                        </button>
+                  </div>                  
+            </div>
+            <div id="modalDelecao" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                                  <h4>Confirmação</h4>
+                          </div>
+                          <div class="modal-body">
+                              <h6>Deseja desativar Pessoa Física {{ pessoaFisica.nome }} ? </h6>
+                          </div>
+                          <div class="modal-footer">
+                              <button class="btn btn-danger" (click)="desativar()" data-dismiss="modal">Confirma</button>
+                              <button class="btn btn-primary ml-1" data-dismiss="modal">Cancelar</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+      </form>
+    </div>
+    
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
